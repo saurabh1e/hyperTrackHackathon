@@ -30,7 +30,7 @@ const IonicPro = Pro.init('62a6e091', {
 
 const cloudSettings: CloudSettings = {
   'core': {
-    'app_id': '62a6e091'
+    'app_id': 'a4a97fa7'
   }
 };
 
