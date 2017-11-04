@@ -1,0 +1,8 @@
+{
+  "name": "hyperTrackHackathon",
+  "app_id": "62a6e091",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

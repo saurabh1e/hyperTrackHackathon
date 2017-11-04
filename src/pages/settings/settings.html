@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <form>
+    <ion-list *ngIf="(profile$|async); let profile">
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input [(ngModel)]="name" name="name" [value]="profile?.name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Tag Line</ion-label>
+        <ion-input [value]="profile?.tagline"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Industry</ion-label>
+        <ion-input [value]="profile?.industry"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Designation</ion-label>
+        <ion-input [value]="profile?.designation"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Hiring People</ion-label>
+        <ion-toggle [checked]="profile?.hirePeople"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Looking for Job</ion-label>
+        <ion-toggle [checked]="profile?.availableForHiring"></ion-toggle>
+      </ion-item>
+
+
+    </ion-list>
+
+
+  </form>
+
+</ion-content>
