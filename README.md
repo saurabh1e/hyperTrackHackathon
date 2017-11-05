@@ -1,4 +1,4 @@
-##ConnectinCon
+##CatchUp
 
 Connect with relevent people at events and exhibition seamlessly
 
