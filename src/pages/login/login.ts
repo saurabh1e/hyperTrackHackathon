@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
   // The account fields for the login form.
   // If you're using the username field with or without email, make
   // sure to add it to the type
-  account: { phone: string, } = {phone: null};
+  account: { email: string, password: string} = {email: null, password: null};
   recaptchaVerifier: any;
 
   // Our translated text strings
@@ -55,18 +55,18 @@ export class LoginPage implements OnInit {
   }
 
   signInWithFacebook() {
-    // if (this.platform.is('cordova')) {
-    //   console.log(1);
-    //   return this.fb.login(['email', 'public_profile']).then(res => {
-    //     const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-    //     return firebase.auth().signInWithCredential(facebookCredential);
-    //   })
-    // }
-    // else {
-    //   this.afAuth.app.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider()).then(() => {
-    //     this.navCtrl.push(MainPage);
-    //   })
-    // }
+    if (this.platform.is('cordova')) {
+      console.log(1);
+      return this.fb.login(['email', 'public_profile']).then(res => {
+        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
+        return firebase.auth().signInWithCredential(facebookCredential);
+      })
+    }
+    else {
+      this.afAuth.app.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider()).then(() => {
+        this.navCtrl.push(MainPage);
+      })
+    }
 
   }
   signInWithGoogle() {
@@ -75,37 +75,20 @@ export class LoginPage implements OnInit {
     // });
   }
 
-  signIn(phoneNumber: string) {
-    const appVerifier = this.recaptchaVerifier;
-    const phoneNumberString = "+91" + phoneNumber;
-    this.afAuth.app.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
+  signIn(account: { email: string, password: string}) {
+    let auth = this.afAuth.app.auth();
+    let nav = this.navCtrl;
+    this.afAuth.app.auth().createUserWithEmailAndPassword(account.email, account.password)
       .then(confirmationResult => {
         // const a = prompt("Enter Verification Code");
-        let prompt = this.alertCtrl.create({
-          title: 'Enter the Confirmation code',
-          inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
-          buttons: [
-            { text: 'Cancel',
-              handler: data => { console.log('Cancel clicked'); }
-            },
-            { text: 'Send',
-              handler: data => {
-                confirmationResult.confirm(data.confirmationCode)
-                  .then(function (result) {
-                    // User signed in successfully.
-                    console.log(result.user);
-                    this.navCtrl.push(MainPage);
-                    // ...
-                  }).catch(function (error) {
-                });
-              }
-            }
-          ]
-        });
-        prompt.present();
+        console.log(confirmationResult);
+        nav.push(MainPage);
       })
       .catch(function (error) {
         // this._loader.hide();
+        auth.signInWithEmailAndPassword(account.email, account.password).then(() => {
+            nav.push(MainPage);
+        });
         console.error("SMS not sent", error);
       });
   }

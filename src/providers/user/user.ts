@@ -97,7 +97,12 @@ export class UserService {
    * Log the user out, which forgets the session
    */
   logout() {
-    this._user = null;
+    this.afAuth.app.auth().signOut().then((d) =>{
+
+
+    },(err) => {
+
+    });
   }
 
   /**

@@ -38,14 +38,19 @@ export class SettingsPage {
     public settings: Settings,
     public translate: TranslateService) {
     this._user.user$.subscribe((data: User) =>{
-      this.user = data;
-      let col = this._store.collection<any>('userProfile');
-      this.profile$ = col.doc(data.uid).valueChanges();
+      if (data) {
+        this.user = data;
+        let col = this._store.collection<any>('userProfile');
+        this.profile$ = col.doc(data.uid).valueChanges();
+      }
     });
   }
 
 
   ngOnChanges() {
     console.log('Ng All Changes');
+  }
+  userLogout() {
+    this._user.logout();
   }
 }
